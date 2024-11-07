@@ -1,0 +1,20 @@
+*{
+    padding: 5px 5px;
+    background-color: aquamarine;
+    font-family: "Gill Sans", sans-serif;
+}
+
+.container{
+    width: 1000px;
+    height: auto;
+    border: 1px solid black;
+    padding: 10px;
+    margin: auto;
+
+}
+
+input{
+    background-color: #fff;
+    width: 800px;
+    margin-bottom: 20px;
+}
