@@ -18,3 +18,14 @@ input{
     width: 800px;
     margin-bottom: 20px;
 }
+i{
+    color: black;
+}
+
+.fa-arrow-right{
+    width: 1px;
+}
+
+.fa-arrow-right:hover{
+    
+}

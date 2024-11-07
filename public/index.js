@@ -1,22 +1,10 @@
 const container = document.querySelector(".container");
 
-
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+import { YoutubeTranscript } from 'youtube-transcript';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI("AIzaSyAK7MBZBiE5iZM-uFtnKgLMzhzjVEV5c-c");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-/*const prompt = "Explain how AI works";
-
-const result = await model.generateContent(prompt);
-console.log(result.response.text());*/
-// Print text as it comes in. https://ai.google.dev/gemini-api/docs/text-generation?lang=node
-
-container.innerHTML = `
-    <label>URL:</label>
-    <input type="text" id="url" name="URL" required>
-`
-let url = document.getElementById('url');
 
 
 
@@ -32,20 +20,9 @@ function logAndStoreMessage(role, text) {
 // Initial chat setup with history
 const chat = model.startChat({
   history: [
-    {
-      role: "user",
-      parts: [{ text: "Your duty is to summarise youtube transcripts that will be provided" }],
-    },
-    {
-      role: "model",
-      parts: [{ text: "" }],
-    },
   ],
 });
 
-// Initial messages
-logAndStoreMessage("user", "Your duty is to summarise youtube transcripts that will be provided");
-logAndStoreMessage("model", "");
 
 async function sendMessage(message) {
   // Store and send user's message
@@ -62,7 +39,58 @@ async function sendMessage(message) {
   }
 }
 
+function processURL(){
+  let url = document.getElementById('url');
+  YoutubeTranscript.fetchTranscript(url.text)
+    .then(async (transcript) => {
+        const transcriptData = transcript;
+        //console.log(transcriptData);
+
+        await sendMessage(transcriptData);
+
+
+
+    })
+    .catch((error) => console.error(error));
+}
+
+container.innerHTML += `
+     <label>Response:</label>
+    <p class="response"></p>
+`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Sample messages
+await sendMessage("Your duty is to summarise youtube transcripts that will be provided");
 await sendMessage("I have 2 dogs in my house.");
 await sendMessage("How many paws are in my house?");
 await sendMessage("bye"); // Trigger end of conversation
