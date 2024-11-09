@@ -5,6 +5,7 @@ const genAI = new GoogleGenerativeAI("AIzaSyAK7MBZBiE5iZM-uFtnKgLMzhzjVEV5c-c");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const container = document.querySelector(".container");
 
+
 const conversationHistory = []; // Array to store chat history
 
 // Function to log and store each message in the conversation history
@@ -15,6 +16,8 @@ function logAndStoreMessage(role, text) {
   }
   
 }
+
+console.log("hed");
 
 // Initial chat setup with history
 const chat = model.startChat({
