@@ -1,20 +1,19 @@
-const container = document.querySelector(".container");
-
-import { YoutubeTranscript } from 'youtube-transcript';
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { YoutubeLoader } from "@langchain/community/document_loaders/web/youtube";
 
 const genAI = new GoogleGenerativeAI("AIzaSyAK7MBZBiE5iZM-uFtnKgLMzhzjVEV5c-c");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-
-
+const container = document.querySelector(".container");
 
 const conversationHistory = []; // Array to store chat history
 
 // Function to log and store each message in the conversation history
 function logAndStoreMessage(role, text) {
   conversationHistory.push({ role, text });
-  console.log(text);
+  if(role == 'model'){
+    console.log(text);
+  }
+  
 }
 
 // Initial chat setup with history
@@ -35,62 +34,34 @@ async function sendMessage(message) {
   // Stop recording if user says "bye"
   if (message.toLowerCase() === "bye") {
     console.log("Conversation Ended. Here is the full chat history:");
-    console.log(conversationHistory);
+    //console.log(conversationHistory);
   }
 }
 
 function processURL(){
-  let url = document.getElementById('url');
-  YoutubeTranscript.fetchTranscript(url.text)
-    .then(async (transcript) => {
-        const transcriptData = transcript;
-        //console.log(transcriptData);
+  let label_response = document.createElement("label");
+  let p = document.createElement("p");
+  let label_user = document.createElement("label");
+  let user_input =document.createElement("input");
+  user_input.type = text;
+  user_input.id = user;
+  user_input.name = user;
 
-        await sendMessage(transcriptData);
-
-
-
-    })
-    .catch((error) => console.error(error));
+  container.appendChild(label_response);
+  container.appendChild(p);
+  container.appendChild(label_user);
+  container.appendChild(user_input);
 }
 
-container.innerHTML += `
-     <label>Response:</label>
-    <p class="response"></p>
-`
+
+const loader = YoutubeLoader.createFromUrl("https://youtu.be/nudje7WT-Vs?si=M_W1ZnLAY6jyCvyk", {
+  language: "en",
+  addVideoInfo: false,
+});
+
+const docs = await loader.load();
+//console.log(docs[0].pageContent);
+await sendMessage(docs[0].pageContent);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Sample messages
-await sendMessage("Your duty is to summarise youtube transcripts that will be provided");
-await sendMessage("I have 2 dogs in my house.");
-await sendMessage("How many paws are in my house?");
 await sendMessage("bye"); // Trigger end of conversation

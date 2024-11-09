@@ -18,6 +18,7 @@ input{
     width: 800px;
     margin-bottom: 20px;
 }
+
 i{
     color: black;
 }
@@ -27,5 +28,5 @@ i{
 }
 
 .fa-arrow-right:hover{
-    
+    cursor: pointer;    
 }
