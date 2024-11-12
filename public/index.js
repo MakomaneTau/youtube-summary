@@ -1,9 +1,13 @@
+console.log("hello");
+// ohk it does connect problem is the import statement
+
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { YoutubeLoader } from "@langchain/community/document_loaders/web/youtube";
 
 const genAI = new GoogleGenerativeAI("AIzaSyAK7MBZBiE5iZM-uFtnKgLMzhzjVEV5c-c");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const container = document.querySelector(".container");
+
 
 
 const conversationHistory = []; // Array to store chat history
